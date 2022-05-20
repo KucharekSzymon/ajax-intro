@@ -2,9 +2,11 @@ const express = require("express");
 const fs = require("fs");
 const csv = require("fast-csv");
 const path = require("path");
+const ejs = require("ejs");
 
 const app = express();
 const port = 3000;
+app.set("view engine", "ejs");
 
 async function readCSV() {
   var queryParameter = () =>
@@ -27,6 +29,7 @@ async function readCSV() {
 }
 
 app.get("/json", async (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
   res.send(await readCSV());
 });
 app.get("/xml", async (req, res) => {
