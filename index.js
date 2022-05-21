@@ -28,6 +28,9 @@ async function readCSV() {
 
 app.get("/json", async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*')
+ // const sortObject = o => Object.keys(o).sort().reduce((r, k) => (r[k] = o[k], r), {})
+ // var x = sortObject(await readCSV());
+
   res.send(await readCSV());
 });
 app.get('/json/id=:id', async function (req, res) {

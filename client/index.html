@@ -18,8 +18,8 @@
     </div>
 
     <script type="text/javascript">
-        function sendID(id){
-            localStorage.setItem("id",id);
+        function sendID(id) {
+            localStorage.setItem("id", id);
             window.location.href = "./product.html";
         }
 
@@ -33,6 +33,7 @@
                     card += '<div class="card product-list" style="width: 18rem;">';
                     card += '<img style="width:auto;" src=' + data[i].Image + ' class="card-img-top">';
                     card += '<div class="card-body">';
+                    card += '<span class = "text-uppercase text-muted brand">' + data[i].Producent + '</span>';
                     card += '<h5 class="card-title">' + data[i].Model + '</h5>';
                     card += '<p class="card-text">' + data[i].Desc + '</p>';
                     card += '<a onClick="sendID(' + data[i].ID + ')" class="btn btn-primary">Details</a><span style="float:right;">' + data[i].Price + '$</span></div></div></div>';
