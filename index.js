@@ -2,11 +2,9 @@ const express = require("express");
 const fs = require("fs");
 const csv = require("fast-csv");
 const path = require("path");
-const ejs = require("ejs");
 
 const app = express();
 const port = 3000;
-app.set("view engine", "ejs");
 
 async function readCSV() {
   var queryParameter = () =>
@@ -31,6 +29,30 @@ async function readCSV() {
 app.get("/json", async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*')
   res.send(await readCSV());
+});
+app.get('/json/id=:id', async function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*')
+  var id = req.params.id;
+  const jsonAll = await readCSV();
+  var jsonID = []
+  for(let i = 0; i<jsonAll.length;i++){
+    if(jsonAll[i].ID == id){
+      jsonID.push(jsonAll[i])
+    }
+  }
+  res.send(jsonID)
+});
+app.get('/json/type=:type', async function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*')
+  var type = req.params.type;
+  const jsonAll = await readCSV();
+  var jsonType = []
+  for(let i = 0; i<jsonAll.length;i++){
+    if(jsonAll[i].Type == type){
+      jsonType.push(jsonAll[i])
+    }
+  }
+  res.send(jsonType)
 });
 app.get("/xml", async (req, res) => {
   const json = await readCSV();

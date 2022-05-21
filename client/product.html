@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>var id = localStorage["id"]; </script>
+    <title>Product page</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <script>
+
+        $.getJSON("http://localhost:3000/json", function (data) {
+            var img = [];
+            $.each(data, function (key, val) {
+                if (val.ID == id) {
+                    $('img').attr("src", val.Image);
+                    $('.act-price').text('$' + val.Price)
+                    $('#Producent').text(val.Producent)
+                    $('#Model').text(val.Model)
+                    $('.about').text(val.Desc)
+                    console.log(val)
+                }
+            });
+        });
+
+    </script>
+    <div class="container mt-5 mb-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="images p-3">
+                                <div class="text-center p-4"> <img id="main-image" src="" width="250" /> </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="product p-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center"> <span class="ml-1"><a
+                                                style='text-decoration: none;' href='/client/index.html'><--Back</a></span> </div> <i
+                                        class="fa fa-shopping-cart text-muted"></i>
+                                </div>
+                                <div class="mt-4 mb-3"> <span id='Producent'
+                                        class="text-uppercase text-muted brand">Orianz</span>
+                                    <h5 id='Model' class="text-uppercase">Men's slim fit t-shirt</h5>
+                                    <div class="price d-flex flex-row align-items-center"> <span
+                                            class="act-price"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="about">Shop from a wide range of t-shirt from orianz. Pefect for your everyday
+                                use, you could pair it with a stylish pair of jeans or trousers complete the look.
+                            </p>
+                            <div class="sizes mt-5">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</body>
+
+</html>
