@@ -11,27 +11,34 @@
 
 <body>
     <div class="container">
-        <script>
-            $.getJSON("http://localhost:3000/json", function (data) {
-                var items = [];
-                $.each(data, function (key, val) {
-                    items.push('<div class"row"">')
-                    items.push('<div class="card product-list" style="width: 18rem;">');
-                    items.push('<img style="width:18rem;" src=' + val.Image + ' class="card-img-top">');
-                    items.push('<div class="card-body">');
-                    items.push('<h5 class="card-title">' + val.Name + '</h5>');
-                    items.push('<p class="card-text">' + val.Desc + '</p>');
-                    items.push('<a href="#" class="btn btn-primary">Details</a></div></div></div>');
-                });
+        <div class="cart-group row row-cols-2 row-cols-md-3 g-4" style="display: flex;">
+            
+        </div>
 
-                $("<div/>", {
-                    "class": "cart-group row row-cols-2 row-cols-md-3 g-4",
-                    "style": "display:flex;",
-                    html: items.join("")
-                }).appendTo(".container");
-            });
-        </script>
     </div>
+
+    <script type="text/javascript">
+        $.ajax({
+            url: 'http://localhost:3000/json',
+            dataType: 'json',
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var card = ""
+                    card +='<div class="row">'
+                    card +='<div class="card product-list" style="width: 18rem;">';
+                    card +='<img style="width:18rem;" src=' + data[i].Image + ' class="card-img-top">';
+                    card +='<div class="card-body">';
+                    card +='<h5 class="card-title">' + data[i].Name + '</h5>';
+                    card +='<p class="card-text">' + data[i].Desc + '</p>';
+                    card +='<a href="#" class="btn btn-primary">Details</a></div></div></div>';
+                    $('.cart-group').append(card);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    </script>
 </body>
 
 </html>
