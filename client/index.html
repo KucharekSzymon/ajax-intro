@@ -17,15 +17,15 @@
                 $.each(data, function (key, val) {
                     items.push('<div class"row"">')
                     items.push('<div class="card product-list" style="width: 18rem;">');
-                    items.push('<img src=' + val.Image + '" class="card-img-top">');
+                    items.push('<img style="width:18rem;" src=' + val.Image + ' class="card-img-top">');
                     items.push('<div class="card-body">');
                     items.push('<h5 class="card-title">' + val.Name + '</h5>');
                     items.push('<p class="card-text">' + val.Desc + '</p>');
-                    items.push('<a href="#" class="btn btn-primary">Buy</a></div></div></div>');
+                    items.push('<a href="#" class="btn btn-primary">Details</a></div></div></div>');
                 });
 
                 $("<div/>", {
-                    "class": "cart-group row row-cols-1 row-cols-md-2 g-4",
+                    "class": "cart-group row row-cols-2 row-cols-md-3 g-4",
                     "style": "display:flex;",
                     html: items.join("")
                 }).appendTo(".container");
