@@ -28,8 +28,6 @@ async function readCSV() {
 
 app.get("/json", async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*')
-  // const sortObject = o => Object.keys(o).sort().reduce((r, k) => (r[k] = o[k], r), {})
-  // var x = sortObject(await readCSV());
 
   res.send(await readCSV());
 });
@@ -46,6 +44,32 @@ app.get('/json/id=:id', async function (req, res) {
   jsonFound.sort((x, y) => x.Price - y.Price);
   res.send(jsonID)
 });
+app.get("/json/types", async (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  var allTypes = []
+
+  var x = await readCSV();
+  for (let i = 0; i < x.length; i++) {
+    if (!(allTypes.includes(x[i].Type))) {
+      allTypes.push(x[i].Type)
+    }
+  }
+
+  res.json(allTypes);
+});
+app.get("/json/producents", async (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  var allProducents = []
+
+  var x = await readCSV();
+  for (let i = 0; i < x.length; i++) {
+    if (!(allProducents.includes(x[i].Producent))) {
+      allProducents.push(x[i].Producent)
+    }
+  }
+
+  res.json(allProducents);
+});
 
 app.get('/json/sortby=', async function (req, res) {
   res.header('Access-Control-Allow-Origin', '*')
@@ -57,18 +81,18 @@ app.get('/json/sortby=', async function (req, res) {
     if (jsonAll[i].Type == x.Type || jsonAll[i].Producent == x.Producent)
       jsonFound.push(jsonAll[i])
   }
-  if(jsonFound.length == 0)
+  if (jsonFound.length == 0)
     jsonFound = jsonAll
-    
-  if(x.Price){
-    if(x.Price == 'ASC'){
+
+  if (x.Price) {
+    if (x.Price == 'ASC') {
       jsonFound.sort((x, y) => x.Price - y.Price);
     }
-    else if(x.Price == 'DESC'){
+    else if (x.Price == 'DESC') {
       jsonFound.sort((x, y) => y.Price - x.Price);
     }
   }
-    console.log(x)
+  console.log(x)
   res.json(jsonFound);
 })
 

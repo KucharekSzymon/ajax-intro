@@ -10,6 +10,66 @@
 </head>
 
 <body>
+    <script>
+
+        $.ajax({
+            url: 'http://localhost:3000/json/types',
+            dataType: 'json',
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var card = ""
+                    card += '<option value="'+data[i]+'">'+data[i]+'</option>';
+                    
+                    $('#Type').append(card);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+        $.ajax({
+            url: 'http://localhost:3000/json/producents',
+            dataType: 'json',
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var card = ""
+                    card += '<option value="'+data[i]+'">'+data[i]+'</option>';
+                    
+                    $('#Producent').append(card);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+
+    </script>
+    <div class="row row-cols-4">
+        <div>
+            <h1>Sort by:</h1>
+        </div>
+        <div>
+            <span>Price</span>
+            <select onchange="sortChange()" id="Price" class="form-select">
+                <option selected hidden>Select</option>
+                <option value="ASC">ASC</option>
+                <option value="DESC">DESC</option>
+            </select>
+        </div>
+        <div>
+            <span>Producent</span>
+            <select id="Producent" class="form-select">
+                <option selected hidden>Select</option>
+            </select>
+        </div>
+        <div>
+            <span>Type</span>
+            <select id="Type" class="form-select">
+                <option selected hidden>Select</option>
+            </select>
+        </div>
+
+    </div>
     <div class="container" style="padding: 30px;">
         <div class="cart-group row row-cols-2 row-cols-md-3 g-4" style="display: flex;">
 
