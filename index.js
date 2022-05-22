@@ -43,6 +43,7 @@ app.get('/json/id=:id', async function (req, res) {
       jsonID.push(jsonAll[i])
     }
   }
+  jsonFound.sort((x, y) => x.Price - y.Price);
   res.send(jsonID)
 });
 
@@ -56,7 +57,18 @@ app.get('/json/sortby=', async function (req, res) {
     if (jsonAll[i].Type == x.Type || jsonAll[i].Producent == x.Producent)
       jsonFound.push(jsonAll[i])
   }
-
+  if(jsonFound.length == 0)
+    jsonFound = jsonAll
+    
+  if(x.Price){
+    if(x.Price == 'ASC'){
+      jsonFound.sort((x, y) => x.Price - y.Price);
+    }
+    else if(x.Price == 'DESC'){
+      jsonFound.sort((x, y) => y.Price - x.Price);
+    }
+  }
+    console.log(x)
   res.json(jsonFound);
 })
 
@@ -71,7 +83,7 @@ app.get("/xml", async (req, res) => {
     xml += "</printer>\n";
   });
   xml += "</shop>";
-  
+
   res.send(await xml);
 });
 
