@@ -28,8 +28,8 @@ async function readCSV() {
 
 app.get("/json", async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*')
- // const sortObject = o => Object.keys(o).sort().reduce((r, k) => (r[k] = o[k], r), {})
- // var x = sortObject(await readCSV());
+  // const sortObject = o => Object.keys(o).sort().reduce((r, k) => (r[k] = o[k], r), {})
+  // var x = sortObject(await readCSV());
 
   res.send(await readCSV());
 });
@@ -38,25 +38,28 @@ app.get('/json/id=:id', async function (req, res) {
   var id = req.params.id;
   const jsonAll = await readCSV();
   var jsonID = []
-  for(let i = 0; i<jsonAll.length;i++){
-    if(jsonAll[i].ID == id){
+  for (let i = 0; i < jsonAll.length; i++) {
+    if (jsonAll[i].ID == id) {
       jsonID.push(jsonAll[i])
     }
   }
   res.send(jsonID)
 });
-app.get('/json/type=:type', async function (req, res) {
+
+app.get('/json/sortby=', async function (req, res) {
   res.header('Access-Control-Allow-Origin', '*')
-  var type = req.params.type;
-  const jsonAll = await readCSV();
-  var jsonType = []
-  for(let i = 0; i<jsonAll.length;i++){
-    if(jsonAll[i].Type == type){
-      jsonType.push(jsonAll[i])
-    }
+  var x = req.query
+
+  const jsonAll = await readCSV()
+  var jsonFound = []
+  for (let i = 0; i < jsonAll.length; i++) {
+    if (jsonAll[i].Type == x.Type || jsonAll[i].Producent == x.Producent)
+      jsonFound.push(jsonAll[i])
   }
-  res.send(jsonType)
-});
+
+  res.json(jsonFound);
+})
+
 app.get("/xml", async (req, res) => {
   const json = await readCSV();
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<shop>\n';
@@ -68,6 +71,7 @@ app.get("/xml", async (req, res) => {
     xml += "</printer>\n";
   });
   xml += "</shop>";
+  
   res.send(await xml);
 });
 
