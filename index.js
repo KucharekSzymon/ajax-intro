@@ -78,8 +78,14 @@ app.get('/json/sortby=', async function (req, res) {
   const jsonAll = await readCSV()
   var jsonFound = []
   for (let i = 0; i < jsonAll.length; i++) {
-    if (jsonAll[i].Type == x.Type || jsonAll[i].Producent == x.Producent)
-      jsonFound.push(jsonAll[i])
+    if (x.Type && x.Producent) {
+      if (jsonAll[i].Type == x.Type && jsonAll[i].Producent == x.Producent)
+        jsonFound.push(jsonAll[i])
+    }
+    else {
+      if (jsonAll[i].Type == x.Type || jsonAll[i].Producent == x.Producent)
+        jsonFound.push(jsonAll[i])
+    }
   }
   if (jsonFound.length == 0)
     jsonFound = jsonAll
@@ -92,7 +98,6 @@ app.get('/json/sortby=', async function (req, res) {
       jsonFound.sort((x, y) => y.Price - x.Price);
     }
   }
-  console.log(x)
   res.json(jsonFound);
 })
 

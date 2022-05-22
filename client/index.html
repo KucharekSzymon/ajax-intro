@@ -11,15 +11,16 @@
 
 <body>
     <script>
-
+        var sortProducent = '', sortPrice = '', sortType = ''
+        //Load Selects
         $.ajax({
             url: 'http://localhost:3000/json/types',
             dataType: 'json',
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
                     var card = ""
-                    card += '<option value="'+data[i]+'">'+data[i]+'</option>';
-                    
+                    card += '<option value="' + data[i] + '">' + data[i] + '</option>';
+
                     $('#Type').append(card);
                 }
             },
@@ -33,8 +34,8 @@
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
                     var card = ""
-                    card += '<option value="'+data[i]+'">'+data[i]+'</option>';
-                    
+                    card += '<option value="' + data[i] + '">' + data[i] + '</option>';
+
                     $('#Producent').append(card);
                 }
             },
@@ -43,14 +44,47 @@
             }
         });
 
+        function sortChange(input) {
+            if (input.id == "Price") {
+                sortPrice = input.value;
+            }
+            else if (input.id == "Producent") {
+                sortProducent = input.value;
+            }
+            else if (input.id == "Type") {
+                sortType = input.value;
+            }
+            $.ajax({
+                url: 'http://localhost:3000/json/sortby=?Price=' + sortPrice + '&Producent=' + sortProducent + '&Type=' + sortType,
+                dataType: 'json',
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                    var card = ""
+                    card += '<div class="row">'
+                    card += '<div class="card product-list" style="width: 18rem;">';
+                    card += '<img style="width:auto;" src=' + data[i].Image + ' class="card-img-top">';
+                    card += '<div class="card-body">';
+                    card += '<span class = "text-uppercase text-muted brand">' + data[i].Producent + '</span>';
+                    card += '<h5 class="card-title">' + data[i].Model + '</h5>';
+                    card += '<p class="card-text">' + data[i].Desc + '</p>';
+                    card += '<a onClick="sendID(' + data[i].ID + ')" class="btn btn-primary">Details</a><span style="float:right;">' + data[i].Price + '$</span></div></div></div>';
+                    $('.cart-group').replaceWith(card);
+                }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + ' - ' + errorThrown);
+                }
+            });
+        }
     </script>
+
     <div class="row row-cols-4">
         <div>
             <h1>Sort by:</h1>
         </div>
         <div>
             <span>Price</span>
-            <select onchange="sortChange()" id="Price" class="form-select">
+            <select onchange="sortChange(this)" id="Price" class="form-select">
                 <option selected hidden>Select</option>
                 <option value="ASC">ASC</option>
                 <option value="DESC">DESC</option>
@@ -58,13 +92,13 @@
         </div>
         <div>
             <span>Producent</span>
-            <select id="Producent" class="form-select">
+            <select onchange="sortChange(this)" id="Producent" class="form-select">
                 <option selected hidden>Select</option>
             </select>
         </div>
         <div>
             <span>Type</span>
-            <select id="Type" class="form-select">
+            <select onchange="sortChange(this)" id="Type" class="form-select">
                 <option selected hidden>Select</option>
             </select>
         </div>
