@@ -2,9 +2,13 @@ const express = require("express");
 const fs = require("fs");
 const csv = require("fast-csv");
 const path = require("path");
+var cors = require('cors')
+
 
 const app = express();
-const port = 3000;
+const port = 3001;
+
+app.use(cors())
 
 async function readCSV() {
   var queryParameter = () =>
@@ -26,8 +30,11 @@ async function readCSV() {
   return mainList;
 }
 
-app.get("/json", async (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*')
+app.get("/json",cors(), async (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+
 
   res.send(await readCSV());
 });
@@ -51,7 +58,7 @@ app.get("/json/types", async (req, res) => {
   var x = await readCSV();
   for (let i = 0; i < x.length; i++) {
     if (!(allTypes.includes(x[i].Type))) {
-      allTypes.push(x[i].Type)
+      allTypes.push({"Type" : x[i].Type})
     }
   }
 
