@@ -58,7 +58,7 @@ app.get("/json/types", async (req, res) => {
   var x = await readCSV();
   for (let i = 0; i < x.length; i++) {
     if (!(allTypes.includes(x[i].Type))) {
-      allTypes.push({"Type" : x[i].Type})
+      allTypes.push(x[i].Type)
     }
   }
 
