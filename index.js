@@ -57,9 +57,10 @@ app.get("/json/types", async (req, res) => {
 
   var x = await readCSV();
   for (let i = 0; i < x.length; i++) {
-    if (!(allTypes.includes(x[i].Type))) {
-      allTypes.push(x[i].Type)
+    if (allTypes.indexOf({"Type" : x[i].Type}) === -1) {
+      allTypes.push({"Type" : x[i].Type});
     }
+    
   }
 
   res.json(allTypes);
@@ -71,7 +72,7 @@ app.get("/json/producents", async (req, res) => {
   var x = await readCSV();
   for (let i = 0; i < x.length; i++) {
     if (!(allProducents.includes(x[i].Producent))) {
-      allProducents.push(x[i].Producent)
+      allProducents.push({"Producent" : x[i].Producent})
     }
   }
 
